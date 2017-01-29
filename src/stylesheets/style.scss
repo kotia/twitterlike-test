@@ -1,0 +1,38 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+a {
+  color: #00B7FF;
+}
+
+.users-card {
+  margin: 1em 0;
+}
+
+.replies-card {
+  background-color: darkgray;
+}
+
+.margined-button {
+  margin: 0 1em;
+}
+
+.small-icon {
+  width: 1em;
+  height: 1em;
+}
+
+.tweet-text {
+  font-size: 1.5em;
+  margin: 0 0 1em;
+}
+
+.deleting-card {
+  background-color: darkred;
+}
+
+.replies-separator {
+  font-size: 2em;
+  margin: 1em 0 2em;
+}
