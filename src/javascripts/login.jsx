@@ -59,23 +59,34 @@ class Login extends React.Component {
     }
 
     render() {
+        let errorBlock = "";
+        if (this.props.user.fail) {
+            errorBlock = <p className="error-text">{this.props.user.errorText}</p>
+        }
         return (
-            <Card>
+            <Card className = "login-form">
                 <CardTitle title="Please, Log in or Register" />
                 <CardText>
                     <TextField
                         onChange={this.props.actions.onChangeUsername}
-                        errorText={this.props.user.fail ? this.props.user.errorText : false }
+                        className="login-field"
                         floatingLabelText="Username"/>
                     <br />
                     <TextField
                         onChange={this.props.actions.onChangePassword}
-                        errorText={this.props.user.fail ? this.props.user.errorText : false }
+                        className="password-field"
                         floatingLabelText="Password"/>
+                    {errorBlock}
                 </CardText>
                 <CardActions>
-                    <FlatButton disabled={this.props.user.requestProcess} onClick={this.props.actions.login} label="Log In" />
-                    <FlatButton disabled={this.props.user.requestProcess} onClick={this.props.actions.register} label="Register" />
+                    <FlatButton
+                        className="login-button"
+                        disabled={this.props.user.requestProcess}
+                        onClick={this.props.actions.login} label="Log In" />
+                    <FlatButton
+                        className="password-button"
+                        disabled={this.props.user.requestProcess}
+                        onClick={this.props.actions.register} label="Register" />
                 </CardActions>
             </Card>
         );

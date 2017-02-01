@@ -1,0 +1,1 @@
+window.testEnv.tests.forEach((test) => test());

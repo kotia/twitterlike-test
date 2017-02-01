@@ -38,7 +38,10 @@ const Navigation = (
     </Provider>
 );
 
-ReactDOM.render(
-    Navigation,
-    document.getElementById('app')
-);
+window.initApp = () => {
+    ReactDOM.render(
+        Navigation,
+        document.getElementById('app')
+    );
+};
+

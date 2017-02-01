@@ -24,6 +24,8 @@ export const REMOVE_TWEET = Symbol();
 export const REMOVE_TWEET_ERROR = Symbol();
 export const REMOVE_TWEET_SUCCESS = Symbol();
 
+export const TWEET_DEFAULT_STATE = Symbol();
+
 export function receiveTweets(tweets) {
     return {
         type: RECEIVE_TWEETS,
@@ -127,11 +129,11 @@ export function editTweet(id, text) {
     }
 }
 
-export function editTweetSuccess(tweet) {
+export function editTweetSuccess(id, text) {
     return {
         type: EDIT_TWEET_SUCCESS,
-        id: tweet.id,
-        text: tweet.text
+        id,
+        text
     }
 }
 
@@ -147,6 +149,13 @@ export function removeTweetSuccess(id, text) {
         type: REMOVE_TWEET_SUCCESS,
         id,
         text
+    }
+}
+
+export function defaultStateTweet(id) {
+    return {
+        type: TWEET_DEFAULT_STATE,
+        id
     }
 }
 

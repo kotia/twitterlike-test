@@ -1,5 +1,5 @@
 import * as React from "react";
-import {editTweet, removeTweet, createTweet} from "./actions.jsx";
+import {editTweet, removeTweet, createTweet, defaultStateTweet} from "./actions.jsx";
 import {connect} from "react-redux";
 import { Link } from 'react-router'
 
@@ -10,6 +10,7 @@ import ActionDelete from 'material-ui/svg-icons/action/delete';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import AvRepeat from 'material-ui/svg-icons/av/repeat';
 import TextField from 'material-ui/TextField';
+import Snackbar from 'material-ui/Snackbar';
 
 class TweetContainer extends React.Component {
     constructor(props){
@@ -23,20 +24,25 @@ class TweetContainer extends React.Component {
         };
 
         this.actions = {
-            onExpand: this.expand.bind(this),
+            onToggleExpand: this.toggleExpand.bind(this),
             onRemove: this.onRemove.bind(this),
             onToggleEdit: this.onToggleEdit.bind(this),
             onEditEdit: this.onEditEdit.bind(this),
             onEdit: this.onEdit.bind(this),
             onEditReply: this.onEditReply.bind(this),
-            onReply: this.onReply.bind(this)
+            onReply: this.onReply.bind(this),
+            onDefaultState: this.defaultState.bind(this)
         };
 
         this.author = this.props.users.find((user) => user.id === this.props.tweet.userId);
     }
 
-    expand() {
-        this.setState({expanded: true});
+    defaultState() {
+        this.props.defaultState(this.props.tweet.id);
+    }
+
+    toggleExpand() {
+        this.setState({expanded: !this.state.expanded});
     }
 
     onRemove() {
@@ -162,7 +168,7 @@ class Tweet extends React.Component {
                     <RaisedButton
                         primary={true}
                         label="reply"
-                        onClick={this.props.actions.onExpand} />
+                        onClick={this.props.actions.onToggleExpand} />
                 </CardActions>
                 <CardText expandable={true}>
                     <TextField hintText="Reply Field"
@@ -176,6 +182,20 @@ class Tweet extends React.Component {
                         onClick={this.props.actions.onReply}
                         secondary={true} label="Post reply" />
                 </CardActions>
+
+                <Snackbar
+                    open={this.props.tweet.success}
+                    message="Tweet added!"
+                    autoHideDuration={4000}
+                    onRequestClose={this.props.actions.onDefaultState}
+                />
+
+                <Snackbar
+                    open={this.props.tweet.edit_success}
+                    message="Tweet edited!"
+                    autoHideDuration={4000}
+                    onRequestClose={this.props.actions.onDefaultState}
+                />
             </Card>
         );
     }
@@ -190,7 +210,8 @@ let mapTweetStateToProps = (store) => ({
 let mapTweetDispatchToProps = (dispatch) => ({
     onRemoveTweet: (id) => dispatch(removeTweet(id)),
     onEditTweet: (id, text) => dispatch(editTweet(id, text)),
-    onReplyTweet: (userId, text, tweetId) => dispatch(createTweet(userId, text, tweetId))
+    onReplyTweet: (userId, text, tweetId) => dispatch(createTweet(userId, text, tweetId)),
+    defaultState: (id) => dispatch(defaultStateTweet(id))
 });
 
 export const TweetContainerCon = connect(mapTweetStateToProps, mapTweetDispatchToProps)(TweetContainer);

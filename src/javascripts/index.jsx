@@ -47,26 +47,34 @@ class App extends React.Component {
 
         let username, topbarGreeting;
 
-        if (this.props.user.id < 0) {
+        if (this.props.user.id < 0 || !this.props.users.length) {
             topbarGreeting = <Link to="/login"><RaisedButton primary={true} label="Login or register"/></Link>;
         } else {
             username = this.props.users.find((user) => user.id === this.props.user.id).username;
             topbarGreeting = (
                 <div>
-                    <ToolbarTitle text={'welcome ' + username + ' #' + this.props.user.id} />
+                    <ToolbarTitle
+                        className="username-greeting"
+                        text={'welcome ' + username + ' #' + this.props.user.id}
+                    />
                     <Link to="/">
                         <RaisedButton
+                            className="users-list-button"
                             primary={true}
                             label="Go to users list"/>
                     </Link>
                     <Link to="/create">
                         <RaisedButton
-                            className="margined-button"
+                            className="margined-button create-tweet-button"
                             secondary={true}
                             label="Create tweet"/>
                     </Link>
                     <Link to="/">
-                        <RaisedButton secondary={true} onClick={this.props.logout} label="Logout"/>
+                        <RaisedButton
+                            secondary={true}
+                            className="logout-button"
+                            onClick={this.props.logout}
+                            label="Logout"/>
                     </Link>
                 </div>
             )

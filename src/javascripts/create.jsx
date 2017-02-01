@@ -4,8 +4,10 @@ import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
+import Snackbar from 'material-ui/Snackbar';
 
-import {createTweet} from "./actions.jsx";
+
+import {createTweet, defaultStateTweet} from "./actions.jsx";
 
 class CreateTweetContainer extends React.Component {
     constructor(props){
@@ -17,7 +19,8 @@ class CreateTweetContainer extends React.Component {
 
         this.actions = {
             onCreateTweet: this.onCreateTweet.bind(this),
-            onEditText: this.onEditText.bind(this)
+            onEditText: this.onEditText.bind(this),
+            onDefaultState: this.onDefaultState.bind(this)
         };
     }
 
@@ -27,6 +30,10 @@ class CreateTweetContainer extends React.Component {
 
     onEditText(e) {
         this.setState({text: e.target.value});
+    }
+
+    onDefaultState() {
+        this.props.onDefaultState();
     }
 
     render() {
@@ -59,6 +66,13 @@ class CreateTweet extends React.Component {
                         onClick={this.props.actions.onCreateTweet} />
                 </CardActions>
 
+                <Snackbar
+                    open={this.props.tweet.success}
+                    message="Tweet created!"
+                    autoHideDuration={4000}
+                    onRequestClose={this.props.actions.onDefaultState}
+                />
+
             </Card>
         )
 
@@ -72,7 +86,8 @@ const mapStateToProps = (store) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onCreateTweet: (id, text) => dispatch(createTweet(id, text))
+    onCreateTweet: (id, text) => dispatch(createTweet(id, text)),
+    onDefaultState: () => dispatch(defaultStateTweet())
 });
 
 export const CreateTweetContainerCon = connect(mapStateToProps, mapDispatchToProps)(CreateTweetContainer);
